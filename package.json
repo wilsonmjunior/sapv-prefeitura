@@ -38,6 +38,7 @@
     "url-parse": "^1.4.7"
   },
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "eslint": "^5.15.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",
