@@ -1,13 +1,13 @@
 {
-  "name": "adonis-api-app",
+  "name": "sapv-prefeitura",
   "version": "4.1.0",
-  "adonis-version": "4.1.0",
-  "description": "Adonisjs boilerplate for API server with pre-configured JWT",
-  "main": "index.js",
   "engines": {
     "node": "10.15.3",
     "npm": "6.x"
   },
+  "adonis-version": "4.1.0",
+  "description": "Adonisjs boilerplate for API server with pre-configured JWT",
+  "main": "index.js",
   "scripts": {
     "assets-dev": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "assets-watch": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
