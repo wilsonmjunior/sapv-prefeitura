@@ -92,6 +92,7 @@ class AgendamentoController {
   async findByPaciente ({ params, request }) {
     const paciente = params.id
     const { data, agendamentoId } = request.all()
+    console.log(paciente, data, agendamentoId)
 
     if (agendamentoId) {
       return Agendamento.query()
@@ -105,6 +106,7 @@ class AgendamentoController {
         .where('id', '!=', agendamentoId)
         .fetch()
     }
+    console.log('passou')
 
     return Agendamento.query()
       .with('paciente')
