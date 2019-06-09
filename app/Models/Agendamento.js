@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Model = use('Model')
 
@@ -27,4 +27,3 @@ class Agendamento extends Model {
 }
 
 module.exports = Agendamento
-

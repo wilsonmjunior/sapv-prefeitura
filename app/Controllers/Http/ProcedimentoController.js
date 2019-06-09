@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Procedimento = use('App/Models/Procedimento')
 
@@ -17,7 +17,10 @@ class ProcedimentoController {
     return procedimento
   }
 
-  async show ({ params, request, response, view }) {}
+  async show ({ params }) {
+    const procedimento = await Procedimento.findOrFail(params.id)
+    return procedimento
+  }
 
   async update ({ params, request }) {
     const procedimento = await Procedimento.findOrFail(params.id)

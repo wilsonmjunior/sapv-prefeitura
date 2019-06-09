@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-'use strict'
+'use strict';
 const Viagem = use('App/Models/Viagem')
 
 class ViagemController {
@@ -70,6 +70,7 @@ class ViagemController {
         .fetch()
     }
   }
+
   async findByVeiculoData ({ params, request }) {
     const { dateIni, dateFin, horario, id } = request.all()
     const veiculo = params.id
@@ -88,15 +89,18 @@ class ViagemController {
       return Viagem.query()
         .with('localidade')
         .with('motorista')
+        .with('veiculo')
         .where('veiculo_id', veiculo)
         .where('status', 'Agendada')
         .where('id', '!=', id)
+        .orderBy('data', 'cres')
         .fetch()
     }
     if (!horario && veiculo !== 0) {
       return Viagem.query()
         .with('localidade')
         .with('motorista')
+        .with('veiculo')
         .where('data', '>=', dateIni)
         .where('data', '<=', dateFin)
         .where('veiculo_id', veiculo)
@@ -104,6 +108,7 @@ class ViagemController {
         .where('id', '!=', id)
         .fetch()
     }
+    console.log('4')
 
     return Viagem.query()
       .with('localidade')
@@ -139,13 +144,29 @@ class ViagemController {
       .with('motorista')
       .where('data', '>=', dateIni)
       .where('data', '<=', dateFin)
+      .orderBy('data', 'cres')
       .fetch()
+    return viagens
+  }
 
+  async findVeiculoViagens ({ params, request }) {
+    const { dateIni, dateFin } = request.all()
+    console.log('Here')
+
+    const viagens = Viagem.query()
+      .with('localidade')
+      .with('veiculo')
+      .with('motorista')
+      .where('veiculo_id', params.id)
+      .where('data', '>=', dateIni)
+      .where('data', '<=', dateFin)
+      .orderBy('data', 'cres')
+      .fetch()
     return viagens
   }
 
   async update ({ params, request }) {
-    const viagem = await Viagem.findOrFail(params.id)
+    const viagem = await Viagem.fdOrFail(params.id)
     const data = request.only([
       'data',
       'horario',

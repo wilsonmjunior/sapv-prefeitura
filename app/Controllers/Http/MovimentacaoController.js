@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Movimentacao = use('App/Models/Movimentacao')
 const Database = use('Database')

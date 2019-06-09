@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Route = use('Route')
 
@@ -133,6 +133,10 @@ Route.group(() => {
 
   Route.get('viagens/:id/agendamentos', 'AgendamentoController.findByViagem')
   Route.get('viagens/:id/periodo', 'ViagemController.findByPeriodo')
+  Route.get(
+    'viagens/:id/veiculo-viagens',
+    'ViagemController.findVeiculoViagens'
+  )
 
   Route.resource('agendamentos', 'AgendamentoController')
     .apiOnly()
@@ -142,6 +146,15 @@ Route.group(() => {
         [['agendamentos.update'], ['Agendamento']]
       ])
     )
+  Route.get(
+    'procedimentos/:id/agendamentos',
+    'AgendamentoController.findByProcedimento'
+  )
+  Route.get(
+    'especialidades/:id/agendamentos',
+    'AgendamentoController.findByEspecialidade'
+  )
+  Route.get('cids/:id/agendamentos', 'AgendamentoController.findByCid')
 
   Route.resource('movimentacoes', 'MovimentacaoController')
     .apiOnly()

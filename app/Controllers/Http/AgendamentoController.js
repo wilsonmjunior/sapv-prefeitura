@@ -1,5 +1,7 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable camelcase */
-'use strict'
+'use strict';
+const Database = use('Database')
 const Agendamento = use('App/Models/Agendamento')
 
 class AgendamentoController {
@@ -89,6 +91,137 @@ class AgendamentoController {
 
     return agendamentos
   }
+
+  async findByProcedimento ({ params, request }) {
+    const { dataIni, dataFin, localidadeId } = request.all()
+
+    if (params.id == 0) {
+      return Agendamento.query()
+        .with('procedimentos')
+        .with('paciente')
+        .with('especialidade')
+        .with('localDeConsulta')
+        .with('cid')
+        .where('data', '>=', dataIni)
+        .where('data', '<=', dataFin)
+        .fetch()
+    }
+    if (params.id > 0) {
+      return Agendamento.query()
+        .with('procedimentos')
+        .with('paciente')
+        .with('especialidade')
+        .with('localDeConsulta')
+        .with('cid')
+        .innerJoin(
+          'agendamento_procedimento',
+          'agendamentos.id',
+          'agendamento_procedimento.agendamento_id'
+        )
+        .where('data', '>=', dataIni)
+        .where('data', '<=', dataFin)
+        .where('agendamento_procedimento.procedimento_id', params.id)
+        .fetch()
+    }
+
+    return Agendamento.query()
+      .with('procedimentos')
+      .with('paciente')
+      .with('especialidade')
+      .with('localDeConsulta')
+      .with('cid')
+      .innerJoin(
+        'agendamento_procedimento',
+        'agendamentos.id',
+        'agendamento_procedimento.agendamento_id'
+      )
+      .where('data', '>=', dataIni)
+      .where('data', '<=', dataFin)
+      .where('localidade_id', localidadeId)
+      .where('agendamento_procedimento.procedimento_id', params.id)
+      .fetch()
+  }
+
+  async findByEspecialidade ({ params, request }) {
+    const { dataIni, dataFin, localidadeId } = request.all()
+
+    if (params.id == 0) {
+      return Agendamento.query()
+        .with('procedimentos')
+        .with('paciente')
+        .with('especialidade')
+        .with('localDeConsulta')
+        .with('cid')
+        .where('data', '>=', dataIni)
+        .where('data', '<=', dataFin)
+        .fetch()
+    }
+    if (params.id > 0) {
+      return Agendamento.query()
+        .with('procedimentos')
+        .with('paciente')
+        .with('especialidade')
+        .with('localDeConsulta')
+        .with('cid')
+        .where('data', '>=', dataIni)
+        .where('data', '<=', dataFin)
+        .where('especialidade_id', params.id)
+        .fetch()
+    }
+
+    return Agendamento.query()
+      .with('procedimentos')
+      .with('paciente')
+      .with('especialidade')
+      .with('localDeConsulta')
+      .with('cid')
+      .where('especialidade_id', params.id)
+      .where('localidade_id', localidadeId)
+      .where('data', '>=', dataIni)
+      .where('data', '<=', dataFin)
+      .fetch()
+  }
+
+  async findByCid ({ params, request }) {
+    const { dataIni, dataFin, cidId } = request.all()
+
+    if (params.id == 0) {
+      return Agendamento.query()
+        .with('cid')
+        .with('procedimentos')
+        .with('paciente')
+        .with('especialidade')
+        .with('localDeConsulta')
+        .where('data', '>=', dataIni)
+        .where('data', '<=', dataFin)
+        .fetch()
+    }
+    if (params.id > 0) {
+      return Agendamento.query()
+        .with('cid')
+        .with('procedimentos')
+        .with('paciente')
+        .with('especialidade')
+        .with('localDeConsulta')
+        .where('data', '>=', dataIni)
+        .where('data', '<=', dataFin)
+        .where('cid_id', params.id)
+        .fetch()
+    }
+
+    return Agendamento.query()
+      .with('cid')
+      .with('procedimentos')
+      .with('paciente')
+      .with('especialidade')
+      .with('localDeConsulta')
+      .where('cid_id', params.id)
+      .where('localidade_id', cidId)
+      .where('data', '>=', dataIni)
+      .where('data', '<=', dataFin)
+      .fetch()
+  }
+
   async findByPaciente ({ params, request }) {
     const paciente = params.id
     const { data, agendamentoId } = request.all()
