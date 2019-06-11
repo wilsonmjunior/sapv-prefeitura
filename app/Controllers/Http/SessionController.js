@@ -11,7 +11,10 @@ class SessionController {
 
     if (user) {
       if (await Hash.verify(password, user.password)) {
-        return auth.attempt(email, password)
+        // return auth.attempt(email, password)
+        let user = await User.findBy('email', email)
+        let token = await auth.generate(user)
+        return response.json({ user, token })
       }
     }
     return null

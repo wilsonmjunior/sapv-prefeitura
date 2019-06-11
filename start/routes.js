@@ -1,14 +1,18 @@
-'use strict';
+'use strict'
 
 const Route = use('Route')
 
 Route.post('sessions', 'SessionController.store').validator('Session')
 Route.get('sessions/:email', 'UserController.findByEmail')
 
-Route.post('usuarios', 'UserController.store').validator('User')
-Route.get('usuarios', 'UserController.index')
-
 Route.group(() => {
+  Route.resource('users', 'UserController')
+    .apiOnly()
+    .validator(
+      new Map([[['users.store'], ['Veiculo']], [['users.update'], ['User']]])
+    )
+  Route.put('change_password', 'UserController.changePassword')
+
   Route.post('parametrizacao', 'ParametrizacaoController.store').validator([
     'Parametrizacao'
   ])
