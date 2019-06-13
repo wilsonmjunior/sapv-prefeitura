@@ -9,7 +9,7 @@ Route.group(() => {
   Route.resource('users', 'UserController')
     .apiOnly()
     .validator(
-      new Map([[['users.store'], ['Veiculo']], [['users.update'], ['User']]])
+      new Map([[['users.store'], ['User']], [['users.update'], ['User']]])
     )
   Route.put('change_password', 'UserController.changePassword')
 

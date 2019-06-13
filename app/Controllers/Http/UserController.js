@@ -14,37 +14,37 @@ class UserController {
 
     return user
   }
-  async show ({ auth, params }) {
-    if (auth.user.id !== Number(params.id)) {
-      return "You cannot see someone else's profile"
-    }
-    return auth.user
-  }
+
   async changePassword ({ request, auth, response }) {
     // get currently authenticated user
-    const user = auth.current.user
+    // const user = auth.current.user
 
-    // verify if current password matches
-    const verifyPassword = await Hash.verify(
-      request.input('password'),
-      user.password
-    )
+    const { email, password, newPassword } = request.all()
+    const user = await User.query()
+      .where('email', email)
+      .first()
 
-    // display appropriate message
-    if (!verifyPassword) {
-      return response.status(400).json({
-        status: 'error',
-        message: 'Current password could not be verified! Please try again.'
+    if (user) {
+      const verifyPassword = !(await Hash.verify(password, user.password))
+
+      if (verifyPassword) {
+        return response.status(400).json({
+          status: 'error',
+          message: 'A senha atual não confere! Por favor, tente novamente.'
+        })
+      }
+
+      user.password = newPassword
+      await user.save()
+
+      return response.json({
+        status: 'success',
+        message: 'Senha alterada com sucesso!'
       })
     }
-
-    // hash and save new password
-    user.password = request.input('newPassword')
-    await user.save()
-
-    return response.json({
-      status: 'success',
-      message: 'Password updated!'
+    return response.status(400).json({
+      status: 'error',
+      message: 'O usuário não existe.'
     })
   }
   async update ({ params, request }) {
@@ -66,6 +66,12 @@ class UserController {
       .first()
 
     return user
+  }
+
+  async destroy ({ params }) {
+    const user = await User.findOrFail(params.id)
+
+    await user.delete()
   }
 }
 

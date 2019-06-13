@@ -6,10 +6,18 @@ class User {
   }
 
   get rules () {
+    const id = this.ctx.params.id
+
     return {
-      username: 'required|unique:users',
-      email: 'required|email|unique:users',
-      password: 'required|confirmed'
+      username:
+        id > 0
+          ? `required|unique:users, username,id,${id}`
+          : 'required|unique:users',
+      email:
+        id > 0
+          ? `required|email|unique:users, email,id,${id}`
+          : 'required|email|unique:users',
+      password: 'required|min:6'
     }
   }
 
@@ -20,8 +28,8 @@ class User {
       'email.required': 'Email deve ser informado',
       'email.email': 'Email foi informado incorretamente',
       'email.unique': 'Email já se encontra em uso',
-      'password.required': 'Senha deve ser informada',
-      'password.confirmed': 'Senhas informadas não conferem'
+      'password.required': 'A senha deve ser informada',
+      'password.min': 'A senha deve ter no mínimo 6 caracteres'
     }
   }
 }
