@@ -1,5 +1,10 @@
 # Adonis API application
 
+![Language](https://img.shields.io/github/languages/top/wilsonmjunior/sapv-prefeitura)
+![Repo Size](https://img.shields.io/github/repo-size/wilsonmjunior/sapv-prefeitura)
+![GitHub Package Version](https://img.shields.io/github/package-json/v/wilsonmjunior/sapv-prefeitura)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/wilsonmjunior/sapv-prefeitura)
+
 This is the boilerplate for creating an API server in AdonisJs, it comes pre-configured with.
 
 1. Bodyparser
